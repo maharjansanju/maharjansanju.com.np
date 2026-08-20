@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sanju Maharjan — Corporate Counsel & Advocate</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-primary: #0a0f0d;
+    --bg-card: #121a16;
+    --bg-card-hover: #17221c;
+    --border-color: rgba(197, 160, 89, 0.15);
+    --border-bright: rgba(197, 160, 89, 0.4);
+    --text-main: #f0ede6;
+    --text-muted: #949e97;
+    --accent: #c5a059;
+    --accent-light: #e2bd76;
+    --emerald-deep: #16261e;
+    --max-width: 1200px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  
+  body {
+    background-color: var(--bg-primary);
+    color: var(--text-main);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: var(--bg-primary);
+  }
+
+  a { color: inherit; text-decoration: none; }
+  
+  .container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 5vw;
+  }
+
+  /* Typography Styles */
+  h1, h2, h3, .serif-font {
+    font-family: 'Instrument Serif', serif;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+
+  .mono-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  /* ---------- HEADER / NAV ---------- *//* ---------- HEADER / NAV ---------- */
+  header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    background: rgba(10, 15, 13, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 80px;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 5vw;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'Instrument Serif', serif;
+    font-size: 24px;
+    letter-spacing: 0.02em;
+    color: var(--text-main);
+  }
+
+  .brand-badge {
+    width: 32px; height: 32px;
+    border: 1px solid var(--accent);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    background: rgba(197, 160, 89, 0.05);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    transition: color 0.2s ease;
+    position: relative;
+    padding-bottom: 4px;
+  }
+
+  .nav-links a::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0; width: 0; height: 1px;
+    background: var(--accent);
+    transition: width 0.3s ease;
+  }
+
+  .nav-links a:hover {
+    color: var(--text-main);
+  }
+
+  .nav-links a:hover::after {
+    width: 100%;
+  }
+
+  /* ---------- HERO SECTION ---------- */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding-top: 100px;
+    position: relative;
+    background: 
+      radial-gradient(circle at 85% 15%, rgba(197, 160, 89, 0.07) 0%, transparent 50%),
+      radial-gradient(circle at 10% 85%, rgba(22, 38, 30, 0.4) 0%, transparent 60%),
+      var(--bg-primary);
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.3fr 0.9fr;
+    gap: 60px;
+    align-items: center;
+    width: 100%;
+  }
+
+  .hero-content .mono-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .hero-content .mono-tag::before {
+    content: '';
+    width: 24px; height: 1px;
+    background: var(--accent);
+  }
+
+  .hero h1 {
+    font-size: clamp(54px, 7vw, 96px);
+    line-height: 0.92;
+    margin-bottom: 24px;
+    color: var(--text-main);
+  }
+
+  .hero h1 span {
+    font-style: italic;
+    color: var(--accent-light);
+  }
+
+  .hero-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+
+  .badge-item {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--text-muted);
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    padding: 6px 14px;
+    border-radius: 4px;
+  }
+
+  .hero-description {
+    font-size: 17px;
+    color: var(--text-muted);
+    max-width: 520px;
+    margin-bottom: 40px;
+    font-weight: 300;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 14px 28px;
+    border-radius: 4px;
+    transition: all 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: var(--bg-primary);
+    border: 1px solid var(--accent);
+    font-weight: 500;
+  }
+
+  .btn-primary:hover {
+    background: var(--accent-light);
+    border-color: var(--accent-light);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--text-main);
+    border: 1px solid var(--border-bright);
+  }
+
+  .btn-secondary:hover {
+    background: rgba(197, 160, 89, 0.08);
+  }
+
+  /* Profile Visual / Emblem Box */
+  .hero-portrait-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .portrait-frame {
+    width: min(340px, 80vw);
+    aspect-ratio: 1 / 1.15;
+    background: var(--bg-card);
+    border: 1px solid var(--border-bright);
+    padding: 16px;
+    position: relative;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  }
+
+  .portrait-inner {
+    width: 100%; height: 100%;
+    background: var(--emerald-deep);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .portrait-inner img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: grayscale(20%) contrast(105%);
+  }
+
+  .portrait-fallback {
+    text-align: center;
+    padding: 20px;
+  }
+
+  .portrait-fallback span {
+    font-family: 'Instrument Serif', serif;
+    font-size: 64px;
+    color: var(--accent);
+    font-style: italic;
+    display: block;
+  }
+
+  .portrait-fallback p {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    margin-top: 8px;
+    text-transform: uppercase;
+  }
+
+  .portrait-frame::after {
+    content: '';
+    position: absolute;
+    bottom: -8px; right: -8px;
+    width: 40px; height: 40px;
+    border-bottom: 2px solid var(--accent);
+    border-right: 2px solid var(--accent);
+  }
+
+  /* ---------- SECTION WRAPPERS ---------- */
+  section {
+    padding: 120px 0 0;
+  }
+
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 20px;
+    margin-bottom: 50px;
+  }
+
+  .section-header h2 {
+    font-size: clamp(36px, 4vw, 48px);
+  }
+
+  /* ---------- ABOUT SECTION ---------- */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 60px;
+  }
+
+  .about-lead {
+    font-size: 24px;
+    line-height: 1.5;
+    font-weight: 300;
+  }
+
+  .about-lead em {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 34px;
+    color: var(--accent-light);
+  }
+
+  .about-body p {
+    color: var(--text-muted);
+    font-size: 16px;
+    margin-bottom: 20px;
+    font-weight: 300;
+  }
+
+  .credentials-list {
+    margin-top: 30px;
+    border-top: 1px solid var(--border-color);
+    list-style: none;
+  }
+
+  .credentials-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border-color);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+  }
+
+  .credentials-list li span:first-child {
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .credentials-list li span:last-child {
+    color: var(--text-main);
+  }
+
+  /* ---------- PRACTICE AREAS ---------- */
+  .practice-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .practice-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    padding: 40px 32px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+
+  .practice-card:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--border-bright);
+    transform: translateY(-4px);
+  }
+
+  .practice-card .card-num {
+    font-family: 'Instrument Serif', serif;
+    font-size: 32px;
+    color: var(--accent);
+    font-style: italic;
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .practice-card h3 {
+    font-size: 24px;
+    margin-bottom: 12px;
+  }
+
+  .practice-card p {
+    color: var(--text-muted);
+    font-size: 15px;
+    font-weight: 300;
+    margin-bottom: 24px;
+  }
+
+  .practice-card .tag-pill {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: rgba(197, 160, 89, 0.08);
+    padding: 4px 10px;
+    border-radius: 3px;
+    display: inline-block;
+  }
+
+  /* ---------- PROFESSIONAL RECORD / EXPERIENCE ---------- */
+  .timeline {
+    border-top: 1px solid var(--border-color);
+  }
+
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 40px;
+    padding: 40px 0;
+    border-bottom: 1px solid var(--border-color);
+    transition: background 0.2s ease;
+  }
+
+  .timeline-meta .role-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .timeline-meta .date-range {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 6px;
+  }
+
+  .timeline-content h3 {
+    font-size: 26px;
+    margin-bottom: 4px;
+  }
+
+  .timeline-content .org-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 12px;
+  }
+
+  .timeline-content .org-name strong {
+    color: var(--accent-light);
+    font-weight: 500;
+  }
+
+  .timeline-content p {
+    color: var(--text-muted);
+    font-size: 15px;
+    font-weight: 300;
+    max-width: 700px;
+  }
+
+  .sub-positions {
+    margin-top: 16px;
+    padding-left: 16px;
+    border-left: 1px solid var(--border-bright);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .sub-pos {
+    font-size: 14px;
+  }
+
+  .sub-pos span {
+    color: var(--text-main);
+    font-weight: 500;
+  }
+
+  .sub-pos small {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-left: 8px;
+  }
+
+  /* ---------- EDUCATION & CREDENTIALS ---------- */
+  .edu-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+
+  .edu-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    padding: 36px;
+    border-radius: 6px;
+  }
+
+  .edu-card .edu-year {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11.5px;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+
+  .edu-card h3 {
+    font-size: 24px;
+    margin-bottom: 6px;
+  }
+
+  .edu-card .institution {
+    color: var(--text-muted);
+    font-size: 15px;
+    font-weight: 300;
+  }
+
+  /* ---------- CONTACT & FOOTER ---------- */
+  .contact-section {
+    padding: 140px 0 60px;
+    text-align: center;
+    background: radial-gradient(circle at 50% 0%, rgba(197, 160, 89, 0.08) 0%, transparent 60%);
+  }
+
+  .contact-section h2 {
+    font-size: clamp(42px, 6vw, 72px);
+    margin: 20px auto 36px;
+    max-width: 750px;
+  }
+
+  .contact-section h2 span {
+    font-style: italic;
+    color: var(--accent-light);
+  }
+
+  .contact-actions {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 80px;
+  }
+
+  footer {
+    border-top: 1px solid var(--border-color);
+    padding: 30px 0;
+  }
+
+  footer .footer-wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 5vw;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.06em;
+  }
+
+  /* Responsive layout adjustments */
+  @media (max-width: 900px) {
+    .hero-grid, .about-grid, .practice-grid, .edu-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .timeline-item {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <a href="#" class="brand">
+      <div class="brand-badge">SM</div>
+      Sanju Maharjan
+    </a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#practice">Practice</a></li>
+      <li><a href="#record">Record</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-content">
+        <div class="mono-tag">Kathmandu, Nepal — Professional Legal Counsel</div>
+        <h1>Sanju<br><span>Maharjan.</span></h1>
+        
+        <div class="hero-badges">
+          <span class="badge-item">Advocate</span>
+          <span class="badge-item">Company Secretary</span>
+          <span class="badge-item">Co‑Founder, Nyayik Paridhi</span>
+        </div>
+
+        <p class="hero-description">
+          Corporate law practitioner specializing in rigorous governance infrastructure, statutory compliance frameworks, and comprehensive shareholder protection mechanisms.
+        </p>
+
+        <div class="hero-actions">
+          <a href="mailto:sanju.maharjan777@gmail.com" class="btn btn-primary">
+            Initiate Contact
+          </a>
+          <a href="https://www.linkedin.com/in/sanjumaharjan-0253aa244" target="_blank" rel="noopener" class="btn btn-secondary">
+            LinkedIn Profile
+          </a>
+        </div>
+      </div>
+
+      <div class="hero-portrait-container">
+        <div class="portrait-frame">
+          <div class="portrait-inner">
+            <img src="profile.jpg" alt="Sanju Maharjan" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <div class="portrait-fallback" style="display:none;">
+              <span>SM</span>
+              <p>Place profile.jpg</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="container">
+    <div class="section-header">
+      <h2>Professional Profile</h2>
+      <span class="mono-tag">01 / Overview</span>
+    </div>
+    <div class="about-grid">
+      <p class="about-lead">
+        Bridging the analytical rigor of courtroom litigation with structural excellence in <em>corporate governance</em> and enterprise administration.
+      </p>
+      <div class="about-body">
+        <p>
+          Sanju Maharjan is an independent-thinking legal professional based in Kathmandu. Serving as Company Secretary at Business Interest Group of Industries Ltd, she administers vital corporate documentation, directs compliance frameworks, and coordinates transparent shareholder relations.
+        </p>
+        <p>
+          Her professional lineage covers diverse segments of jurisprudence—ranging from public advocacy as a Judicial Facilitator with Kathmandu Metropolitan City and operational inputs at the Public Defender's Society Nepal (PDS Nepal), to foundational corporate associate work at Pradhan & Associates. She is also the co-founder of legal literacy initiative Nyayik Paridhi.
+        </p>
+
+        <ul class="credentials-list">
+          <li><span>Jurisdiction</span><span>Kathmandu, Bāgmatī, Nepal</span></li>
+          <li><span>Primary Focus</span><span>Corporate Compliance & Governance</span></li>
+          <li><span>Bar Admittance</span><span>Nepal Law Campus, 2023</span></li>
+          <li><span>Direct Email</span><span>sanju.maharjan777@gmail.com</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="practice">
+  <div class="container">
+    <div class="section-header">
+      <h2>Core Expertise</h2>
+      <span class="mono-tag">02 / Practice Areas</span>
+    </div>
+    <div class="practice-grid">
+      <div class="practice-card">
+        <span class="card-num">I.</span>
+        <h3>Shareholder Protection</h3>
+        <p>Safeguarding minority and institutional stakeholder positions via robust internal charters, precise disclosures, and proactive conflict minimization frameworks.</p>
+        <span class="tag-pill">Rights & Remedies</span>
+      </div>
+      <div class="practice-card">
+        <span class="card-num">II.</span>
+        <h3>Statutory Records</h3>
+        <p>Managing structural corporate registers, official board minutes, and regulatory filings to protect enterprise credibility against legal and fiscal audits.</p>
+        <span class="tag-pill">Compliance & Filings</span>
+      </div>
+      <div class="practice-card">
+        <span class="card-num">III.</span>
+        <h3>Corporate Governance</h3>
+        <p>Advising boards of directors on systemic compliance, administrative checks, operational accountability, and regulatory alignment under Nepalese corporate laws.</p>
+        <span class="tag-pill">Structure & Oversight</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="record">
+  <div class="container">
+    <div class="section-header">
+      <h2>Professional Experience</h2>
+      <span class="mono-tag">03 / Career Record</span>
+    </div>
+    <div class="timeline">
+
+      <div class="timeline-item">
+        <div class="timeline-meta">
+          <div class="role-badge">Executive Role</div>
+          <div class="date-range">Jun 2026 — Present</div>
+        </div>
+        <div class="timeline-content">
+          <h3>Company Secretary</h3>
+          <div class="org-name">at <strong>Business Interest Group of Industries Ltd</strong></div>
+          <p>Directing corporate secretarial operations, regulatory compliance audits, and formal communication pipelines across group entities.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-meta">
+          <div class="role-badge">Leadership</div>
+          <div class="date-range">2023 — Present</div>
+        </div>
+        <div class="timeline-content">
+          <h3>Co-Founder</h3>
+          <div class="org-name">at <strong>Nyayik Paridhi</strong></div>
+          <p>Co-founding and overseeing strategic legal aid and public education operations based out of Kathmandu.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-meta">
+          <div class="role-badge">Corporate Practice</div>
+          <div class="date-range">Jan 2024 — May 2025</div>
+        </div>
+        <div class="timeline-content">
+          <h3>Pradhan & Associates</h3>
+          <div class="org-name">Lalitpur District, Nepal</div>
+          <div class="sub-positions">
+            <div class="sub-pos"><span>Associate Lawyer</span> <small>Jan 2025 – May 2025</small></div>
+            <div class="sub-pos"><span>Legal Trainee</span> <small>Jan 2024 – Dec 2024</small></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-meta">
+          <div class="role-badge">Public Sector</div>
+          <div class="date-range">Mar 2023 — Sep 2023</div>
+        </div>
+        <div class="timeline-content">
+          <h3>Judicial Facilitator</h3>
+          <div class="org-name">at <strong>Kathmandu Metropolitan City</strong></div>
+          <p>Handled institutional dispute resolution mechanisms, mediation assistance, and municipal legal procedures.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-meta">
+          <div class="role-badge">Legal Internship</div>
+          <div class="date-range">Dec 2022 — Feb 2023</div>
+        </div>
+        <div class="timeline-content">
+          <h3>Legal Intern</h3>
+          <div class="org-name">at <strong>Public Defender's Society, Nepal (PDS Nepal)</strong></div>
+          <p>Assisted defense documentation, trial observation, and criminal justice reform research in Babarmahal.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="education">
+  <div class="container">
+    <div class="section-header">
+      <h2>Academic Background</h2>
+      <span class="mono-tag">04 / Credentials</span>
+    </div>
+    <div class="edu-grid">
+      <div class="edu-card">
+        <div class="edu-year">Jan 2018 — Jun 2023</div>
+        <h3>BA LLB (Bachelor of Arts & Bachelor of Laws)</h3>
+        <div class="institution">Nepal Law Campus</div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-year">Aug 2015 — May 2017</div>
+        <h3>+2 Higher Secondary Degree, Business Studies</h3>
+        <div class="institution">DAV College</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="contact-section">
+  <div class="container">
+    <span class="mono-tag">05 / Direct Channel</span>
+    <h2>Let's discuss your corporate and <span>governance</span> requirements.</h2>
+    <div class="contact-actions">
+      <a href="mailto:sanju.maharjan777@gmail.com" class="btn btn-primary">sanju.maharjan777@gmail.com</a>
+      <a href="https://www.linkedin.com/in/sanjumaharjan-0253aa244" target="_blank" rel="noopener" class="btn btn-secondary">Connect on LinkedIn</a>
+    </div>
+  </div>
+  <footer>
+    <div class="footer-wrap">
+      <span>© 2026 Sanju Maharjan. All rights reserved.</span>
+      <span>Kathmandu, Bāgmatī, Nepal</span>
+    </div>
+  </footer>
+</section>
+
+</body>
+</html>
