@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-[#07080A] text-[#F3F4F6]">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sanju Maharjan — Advocate & Company Secretary</title>
+    
+    <!-- Google Fonts: Cormorant Garamond & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        darkBg: '#07080A',
+                        darkCard: '#11131A',
+                        goldAccent: '#F59E0B',
+                        goldMuted: '#D97706',
+                        goldGlow: '#FDE68A',
+                        crimsonAccent: '#EF4444',
+                        emeraldAccent: '#10B981',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* 3D Cube Viewport */
+        .cube-scene {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            perspective: 1200px;
+            background: #07080A;
+        }
+
+        .cube-face {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            transform-origin: 50% 50% -50vh;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            display: none;
+            will-change: transform, opacity;
+        }
+
+        .cube-face.is-current {
+            display: flex;
+            transform: rotateX(0deg);
+            z-index: 10;
+        }
+
+        .cube-face.is-animating {
+            display: flex;
+            z-index: 20;
+        }
+
+        /* 3D Dynamic Shading during rotation */
+        .cube-shade {
+            position: absolute;
+            inset: 0;
+            background: #000;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.85s ease;
+            z-index: 40;
+        }
+    </style>
+</head>
+<body class="h-full font-sans antialiased overflow-hidden selection:bg-goldAccent selection:text-black bg-darkBg text-neutral-100">
+
+    <!-- Top Navigation Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 px-6 sm:px-12 py-4 flex items-center justify-between border-b border-white/10 bg-[#07080A]/85 backdrop-blur-md">
+        <a href="javascript:goToSlide(0)" class="flex items-center gap-3 group">
+            <div class="w-8 h-8 rounded-lg bg-goldAccent/15 border border-goldAccent/50 text-goldAccent flex items-center justify-center group-hover:bg-goldAccent group-hover:text-black transition-all duration-300">
+                <i data-lucide="scale" class="w-4 h-4"></i>
+            </div>
+            <div>
+                <span class="font-serif text-xl font-bold tracking-wider text-white block leading-none">SANJU MAHARJAN</span>
+                <span class="text-[10px] tracking-widest uppercase text-goldAccent font-semibold">Advocate • Kathmandu</span>
+            </div>
+        </a>
+
+        <!-- Main Navigation Links (Names Only, No Numbers) -->
+        <nav class="hidden md:flex items-center gap-8 text-xs font-bold tracking-widest uppercase text-neutral-400">
+            <button onclick="goToSlide(0)" class="nav-link hover:text-goldAccent transition-colors">Overview</button>
+            <button onclick="goToSlide(1)" class="nav-link hover:text-goldAccent transition-colors">Profile</button>
+            <button onclick="goToSlide(2)" class="nav-link hover:text-goldAccent transition-colors">Practice</button>
+            <button onclick="goToSlide(3)" class="nav-link hover:text-goldAccent transition-colors">Credentials</button>
+            <button onclick="goToSlide(4)" class="nav-link hover:text-goldAccent transition-colors">Travels</button>
+            <button onclick="goToSlide(5)" class="px-4 py-2 bg-gradient-to-r from-goldAccent to-amber-500 text-black font-semibold rounded-lg hover:brightness-110 shadow-lg shadow-goldAccent/20 transition-all">Dispatch</button>
+        </nav>
+
+        <!-- Up / Down Cube Controllers -->
+        <div class="flex items-center gap-1.5 border border-white/10 rounded-lg p-1 bg-[#11131A]">
+            <button onclick="navigateCube(-1)" class="p-1 hover:bg-goldAccent hover:text-black rounded text-neutral-300 transition-colors" title="Rotate Cube Up">
+                <i data-lucide="chevron-up" class="w-4 h-4"></i>
+            </button>
+            <button onclick="navigateCube(1)" class="p-1 hover:bg-goldAccent hover:text-black rounded text-neutral-300 transition-colors" title="Rotate Cube Down">
+                <i data-lucide="chevron-down" class="w-4 h-4"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Side Cube Indicators -->
+    <aside class="fixed right-6 top-1/2 -translate-y-1/2 z-50 hidden lg:flex flex-col items-center gap-3">
+        <button onclick="goToSlide(0)" class="cube-dot w-2.5 h-2.5 rounded-full bg-goldAccent transition-all duration-300 shadow-lg shadow-goldAccent/50" title="Overview"></button>
+        <button onclick="goToSlide(1)" class="cube-dot w-2.5 h-2.5 rounded-full bg-white/20 hover:bg-goldAccent/50 transition-all duration-300" title="Profile"></button>
+        <button onclick="goToSlide(2)" class="cube-dot w-2.5 h-2.5 rounded-full bg-white/20 hover:bg-goldAccent/50 transition-all duration-300" title="Practice"></button>
+        <button onclick="goToSlide(3)" class="cube-dot w-2.5 h-2.5 rounded-full bg-white/20 hover:bg-goldAccent/50 transition-all duration-300" title="Credentials"></button>
+        <button onclick="goToSlide(4)" class="cube-dot w-2.5 h-2.5 rounded-full bg-white/20 hover:bg-goldAccent/50 transition-all duration-300" title="Travels"></button>
+        <button onclick="goToSlide(5)" class="cube-dot w-2.5 h-2.5 rounded-full bg-white/20 hover:bg-goldAccent/50 transition-all duration-300" title="Dispatch"></button>
+    </aside>
+
+    <!-- 3D CUBE SCENE -->
+    <div id="cubeScene" class="cube-scene">
+
+        <!-- ==================== CUBE FACE 1: OVERVIEW ==================== -->
+        <section class="cube-face is-current items-center justify-center px-6 sm:px-16 pt-16 bg-[#07080A]">
+            <div class="cube-shade"></div>
+            <!-- Background: Lady Justice in High Contrast -->
+            <div class="absolute inset-0 bg-cover bg-center opacity-25 filter brightness-110 contrast-125 pointer-events-none" style="background-image: url('https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=2000&auto=format&fit=crop');"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-[#07080A] via-[#07080A]/70 to-transparent"></div>
+
+            <div class="relative z-10 max-w-4xl mx-auto text-center flex flex-col items-center">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 mb-6 rounded-full border border-goldAccent/40 bg-goldAccent/10 text-goldAccent text-xs font-bold tracking-widest uppercase backdrop-blur-md">
+                    <span class="w-2 h-2 rounded-full bg-goldAccent animate-pulse"></span>
+                    Advocate & Company Secretary • Nepal
+                </div>
+
+                <h1 class="font-serif text-5xl sm:text-7xl md:text-8xl font-bold tracking-tight text-white mb-6">
+                    SANJU <span class="text-transparent bg-clip-text bg-gradient-to-r from-goldAccent via-amber-300 to-yellow-100">MAHARJAN</span>
+                </h1>
+
+                <p class="font-serif italic text-lg sm:text-2xl text-neutral-300 max-w-2xl mx-auto mb-10 leading-relaxed font-light">
+                    Spearheading boardroom governance, protecting minority equity, and delivering structured municipal legal facilitation in Kathmandu.
+                </p>
+
+                <div class="flex flex-wrap items-center justify-center gap-3 text-xs font-semibold uppercase tracking-wider mb-10">
+                    <span class="px-4 py-2 border border-white/15 bg-white/5 rounded-lg backdrop-blur-sm text-neutral-200">
+                        <span class="text-goldAccent">Current:</span> Company Secretary @ Business Interest Group
+                    </span>
+                    <span class="px-4 py-2 border border-white/15 bg-white/5 rounded-lg backdrop-blur-sm text-neutral-200">
+                        <span class="text-emeraldAccent">Co-Founder:</span> Nyayik Paridhi
+                    </span>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <button onclick="navigateCube(1)" class="px-8 py-3.5 bg-gradient-to-r from-goldAccent to-amber-500 text-black font-bold text-xs uppercase tracking-widest rounded-lg hover:brightness-110 transition-all flex items-center gap-2 shadow-lg shadow-goldAccent/25">
+                        Turn Cube <i data-lucide="rotate-3d" class="w-4 h-4"></i>
+                    </button>
+                    <button onclick="goToSlide(5)" class="px-8 py-3.5 border border-white/20 text-white font-semibold text-xs uppercase tracking-widest rounded-lg hover:border-goldAccent hover:text-goldAccent transition-all">
+                        Consultation
+                    </button>
+                </div>
+
+                <!-- Swipe cue -->
+                <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-neutral-400 text-[10px] font-bold uppercase tracking-widest">
+                    <span>Swipe Down for 3D Cube Rotation</span>
+                    <i data-lucide="chevron-down" class="w-4 h-4 animate-bounce text-goldAccent"></i>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== CUBE FACE 2: PROFILE & SKILLS ==================== -->
+        <section class="cube-face items-center px-6 sm:px-16 py-20 bg-[#090B10]">
+            <div class="cube-shade"></div>
+            <!-- Background: Neoclassical Courthouse Columns -->
+            <div class="absolute inset-0 bg-cover bg-center opacity-20 filter contrast-125 pointer-events-none" style="background-image: url('https://images.unsplash.com/photo-1575505586569-646b2ca898fc?q=80&w=2000&auto=format&fit=crop');"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-[#090B10] via-[#090B10]/80 to-transparent"></div>
+
+            <div class="max-w-6xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-10 items-center relative z-10">
+                <!-- Biography -->
+                <div class="lg:col-span-7 space-y-5">
+                    <div class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-goldAccent">
+                        <span class="w-2.5 h-0.5 bg-goldAccent"></span>
+                        Professional Profile
+                    </div>
+
+                    <h2 class="font-serif text-3xl sm:text-5xl text-white font-bold leading-tight">
+                        Defending corporate integrity with uncompromising statutory diligence.
+                    </h2>
+
+                    <div class="space-y-4 text-neutral-300 text-sm sm:text-base leading-relaxed font-light">
+                        <p>
+                            Licensed Advocate under the Nepal Bar Council, my practice bridges complex boardrooms with judicial forums. I lead governance mandates for commercial enterprises, ensuring structural transparency and regulatory rigor.
+                        </p>
+                        <p>
+                            From municipal dispute conciliation under Kathmandu Metropolitan City's Judicial Committee to cross-border commercial contracts, I structure transactions and corporate resolutions that withstand judicial scrutiny.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 pt-2">
+                        <div class="p-4 border border-white/10 bg-[#121520]/80 rounded-xl">
+                            <span class="text-xs uppercase font-bold tracking-wider text-neutral-400 block mb-1">Bar Admission</span>
+                            <span class="font-serif text-lg text-white font-bold">Nepal Bar Council</span>
+                        </div>
+                        <div class="p-4 border border-white/10 bg-[#121520]/80 rounded-xl">
+                            <span class="text-xs uppercase font-bold tracking-wider text-neutral-400 block mb-1">Jurisdiction</span>
+                            <span class="font-serif text-lg text-white font-bold">Supreme Court of Nepal</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Areas of Practice (No levels/bars) -->
+                <div class="lg:col-span-5 bg-[#121520] border border-goldAccent/30 p-7 sm:p-8 rounded-2xl shadow-2xl">
+                    <h3 class="font-serif text-2xl font-bold text-white border-b border-white/10 pb-3 mb-5 flex items-center justify-between">
+                        <span>Areas of Legal Practice</span>
+                        <span class="text-xs font-sans px-2.5 py-1 bg-goldAccent/10 text-goldAccent rounded-full font-semibold">Core Focus</span>
+                    </h3>
+
+                    <div class="space-y-4">
+                        <div class="p-3.5 rounded-xl bg-white/5 border border-white/5 hover:border-goldAccent/40 transition-colors">
+                            <h4 class="font-bold text-sm text-goldAccent flex items-center gap-2">
+                                <i data-lucide="shield-check" class="w-4 h-4 text-goldAccent"></i> Shareholder Protection
+                            </h4>
+                            <p class="text-xs text-neutral-300 mt-1">Minority rights defense, share buyout agreements, and fiduciary accountability protocols.</p>
+                        </div>
+
+                        <div class="p-3.5 rounded-xl bg-white/5 border border-white/5 hover:border-goldAccent/40 transition-colors">
+                            <h4 class="font-bold text-sm text-amber-300 flex items-center gap-2">
+                                <i data-lucide="file-check-2" class="w-4 h-4 text-amber-300"></i> Corporate Governance & Secretarial Practice
+                            </h4>
+                            <p class="text-xs text-neutral-300 mt-1">Board resolution frameworks, statutory OCR filings, compliance audits, and secretarial supervision.</p>
+                        </div>
+
+                        <div class="p-3.5 rounded-xl bg-white/5 border border-white/5 hover:border-goldAccent/40 transition-colors">
+                            <h4 class="font-bold text-sm text-goldAccent flex items-center gap-2">
+                                <i data-lucide="archive" class="w-4 h-4 text-goldAccent"></i> Corporate Records & Due Diligence
+                            </h4>
+                            <p class="text-xs text-neutral-300 mt-1">Structuring compliant statutory registers, shareholder archives, and transaction diligence.</p>
+                        </div>
+
+                        <div class="p-3.5 rounded-xl bg-white/5 border border-white/5 hover:border-goldAccent/40 transition-colors">
+                            <h4 class="font-bold text-sm text-emeraldAccent flex items-center gap-2">
+                                <i data-lucide="scale" class="w-4 h-4 text-emeraldAccent"></i> Judicial Facilitation & ADR
+                            </h4>
+                            <p class="text-xs text-neutral-300 mt-1">Alternative dispute resolution, local municipal conciliation, and statutory committee drafting.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== CUBE FACE 3: PRACTICE & TIMELINE ==================== -->
+        <section class="cube-face items-center px-6 sm:px-16 py-20 bg-[#07080A]">
+            <div class="cube-shade"></div>
+            <!-- Background: Classic Brass Judicial Scales -->
+            <div class="absolute inset-0 bg-cover bg-center opacity-20 filter contrast-125 pointer-events-none" style="background-image: url('https://images.unsplash.com/photo-1453733197781-70d2df6f3466?q=80&w=2000&auto=format&fit=crop');"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-[#07080A] via-[#07080A]/85 to-transparent"></div>
+
+            <div class="max-w-5xl mx-auto w-full relative z-10">
+                <div class="flex items-center justify-between border-b border-white/10 pb-3 mb-6">
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-widest text-goldAccent block">Chronology</span>
+                        <h2 class="font-serif text-3xl sm:text-4xl text-white font-bold">Practice & Legal Engagements</h2>
+                    </div>
+                    <span class="text-xs font-bold uppercase tracking-wider px-3 py-1 bg-goldAccent/10 text-goldAccent border border-goldAccent/30 rounded-full hidden sm:inline-block">Active Docket</span>
+                </div>
+
+                <div class="space-y-3.5 max-h-[58vh] overflow-y-auto pr-2">
+                    
+                    <div class="p-5 bg-[#121520] border border-goldAccent/40 rounded-xl shadow-lg">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-1">
+                            <h3 class="font-serif text-xl font-bold text-white">Company Secretary</h3>
+                            <span class="text-xs font-bold bg-goldAccent text-black px-2.5 py-0.5 rounded-full w-fit">June 2026 — Present</span>
+                        </div>
+                        <div class="text-xs font-bold uppercase tracking-wider text-goldAccent mb-2">Business Interest Group of Industries Ltd</div>
+                        <p class="text-xs text-neutral-300 leading-relaxed">
+                            Overseeing group statutory compliance, managing quarterly board meetings, issuing legal resolutions, and ensuring seamless compliance with the Office of the Company Registrar.
+                        </p>
+                    </div>
+
+                    <div class="p-5 bg-[#11131A] border border-white/10 rounded-xl hover:border-goldAccent/40 transition-colors">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-1">
+                            <h3 class="font-serif text-xl font-bold text-white">Co-Founder</h3>
+                            <span class="text-xs font-bold border border-white/20 text-neutral-300 px-2.5 py-0.5 rounded-full w-fit">2023 — Present</span>
+                        </div>
+                        <div class="text-xs font-bold uppercase tracking-wider text-emeraldAccent mb-2">Nyayik Paridhi • Kathmandu</div>
+                        <p class="text-xs text-neutral-300 leading-relaxed">
+                            Publishing legal research, organizing judicial workshops, and conducting legal aid drives to enhance statutory literacy across Nepal.
+                        </p>
+                    </div>
+
+                    <div class="p-5 bg-[#11131A] border border-white/10 rounded-xl hover:border-goldAccent/40 transition-colors">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-1">
+                            <h3 class="font-serif text-xl font-bold text-white">Associate & Trainee</h3>
+                            <span class="text-xs font-bold border border-white/20 text-neutral-300 px-2.5 py-0.5 rounded-full w-fit">Jan 2024 — May 2025</span>
+                        </div>
+                        <div class="text-xs font-bold uppercase tracking-wider text-amber-300 mb-2">Pradhan & Associates • Lalitpur</div>
+                        <p class="text-xs text-neutral-300 leading-relaxed">
+                            Drafted commercial contracts, executed corporate due diligence reports, and researched foreign investment regulations.
+                        </p>
+                    </div>
+
+                    <div class="p-5 bg-[#11131A] border border-white/10 rounded-xl hover:border-goldAccent/40 transition-colors">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-1">
+                            <h3 class="font-serif text-xl font-bold text-white">Judicial Facilitator</h3>
+                            <span class="text-xs font-bold border border-white/20 text-neutral-300 px-2.5 py-0.5 rounded-full w-fit">March 2023 — Sept 2023</span>
+                        </div>
+                        <div class="text-xs font-bold uppercase tracking-wider text-goldAccent mb-2">Kathmandu Metropolitan City • Judicial Committee</div>
+                        <p class="text-xs text-neutral-300 leading-relaxed">
+                            Facilitated ADR proceedings for local disputes, documented formal witness testimonies, and drafted committee verdicts under municipal law.
+                        </p>
+                    </div>
+
+                    <div class="p-5 bg-[#11131A] border border-white/10 rounded-xl hover:border-goldAccent/40 transition-colors">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-1">
+                            <h3 class="font-serif text-xl font-bold text-white">Legal Intern</h3>
+                            <span class="text-xs font-bold border border-white/20 text-neutral-300 px-2.5 py-0.5 rounded-full w-fit">Dec 2022 — Feb 2023</span>
+                        </div>
+                        <div class="text-xs font-bold uppercase tracking-wider text-neutral-400 mb-2">Public Defender's Society of Nepal (PDS Nepal) • Babarmahal</div>
+                        <p class="text-xs text-neutral-300 leading-relaxed">
+                            Supported defense attorneys in pretrial proceedings, analyzed constitutional custodial guarantees, and drafted case briefs.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== CUBE FACE 4: EDUCATION ==================== -->
+        <section class="cube-face items-center px-6 sm:px-16 py-20 bg-[#090B10]">
+            <div class="cube-shade"></div>
+            <!-- Background: Grand Law Library Archways -->
+            <div class="absolute inset-0 bg-cover bg-center opacity-25 filter contrast-125 pointer-events-none" style="background-image: url('https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?q=80&w=2000&auto=format&fit=crop');"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-[#090B10] via-[#090B10]/85 to-transparent"></div>
+
+            <div class="max-w-4xl mx-auto w-full relative z-10">
+                <div class="border-b border-white/10 pb-3 mb-8">
+                    <span class="text-xs font-bold uppercase tracking-widest text-goldAccent block">Academic Foundation</span>
+                    <h2 class="font-serif text-3xl sm:text-5xl text-white font-bold">Formal Credentials</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    
+                    <div class="p-8 bg-[#121520] border border-goldAccent/30 rounded-2xl shadow-xl hover:border-goldAccent transition-all group">
+                        <div class="w-12 h-12 rounded-xl bg-goldAccent/10 border border-goldAccent/30 flex items-center justify-center text-goldAccent mb-4 group-hover:scale-105 transition-transform">
+                            <i data-lucide="graduation-cap" class="w-6 h-6"></i>
+                        </div>
+                        <span class="text-xs font-bold text-goldAccent uppercase">2018 — 2023 • BALLB</span>
+                        <h3 class="font-serif text-3xl font-bold text-white mt-1 mb-1">Bachelor of Laws</h3>
+                        <p class="text-xs font-bold uppercase tracking-wider text-neutral-400 mb-4">Nepal Law Campus • Tribhuvan University</p>
+                        <p class="text-sm text-neutral-300 leading-relaxed font-light">
+                            Nepal's premier center for legal scholarship. Intensive training across Company Law, Judicial Review, Jurisprudence, and Trial Advocacy.
+                        </p>
+                    </div>
+
+                    <div class="p-8 bg-[#121520] border border-white/10 rounded-2xl shadow-xl hover:border-amber-400 transition-all group">
+                        <div class="w-12 h-12 rounded-xl bg-amber-400/10 border border-amber-400/30 flex items-center justify-center text-amber-400 mb-4 group-hover:scale-105 transition-transform">
+                            <i data-lucide="book-open" class="w-6 h-6"></i>
+                        </div>
+                        <span class="text-xs font-bold text-amber-300 uppercase">2015 — 2017 • Higher Secondary</span>
+                        <h3 class="font-serif text-3xl font-bold text-white mt-1 mb-1">+2 Business Studies</h3>
+                        <p class="text-xs font-bold uppercase tracking-wider text-neutral-400 mb-4">DAV College • Lalitpur</p>
+                        <p class="text-sm text-neutral-300 leading-relaxed font-light">
+                            Foundational grounding in Financial Accounting, Corporate Economics, and Principles of Business Administration.
+                        </p>
+                    </div>
+
+                </div>
+
+                <div class="mt-8 p-6 bg-[#121520] border-l-4 border-goldAccent rounded-xl shadow-lg flex items-start gap-4">
+                    <i data-lucide="quote" class="w-6 h-6 text-goldAccent shrink-0 mt-1"></i>
+                    <p class="font-serif italic text-base sm:text-lg text-neutral-200">
+                        "The convergence of commerce and legal jurisprudence ensures board governance that is both legally sound and commercially strategic."
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== CUBE FACE 5: TRAVELS & FIELD NOTES ==================== -->
+        <section class="cube-face items-center px-6 sm:px-16 py-20 bg-[#07080A]">
+            <div class="cube-shade"></div>
+            <!-- Background: Himalayan Altitude Silhouette -->
+            <div class="absolute inset-0 bg-cover bg-center opacity-20 filter contrast-125 pointer-events-none" style="background-image: url('https://images.unsplash.com/photo-1544735716-392fe2489ffa?q=80&w=2000&auto=format&fit=crop');"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-[#07080A] via-[#07080A]/85 to-transparent"></div>
+
+            <div class="max-w-6xl mx-auto w-full relative z-10">
+                <div class="flex items-center justify-between border-b border-white/10 pb-3 mb-6">
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-widest text-goldAccent block">Personal Archive</span>
+                        <h2 class="font-serif text-3xl sm:text-4xl text-white font-bold">Field Notes & Travels</h2>
+                    </div>
+                    <span class="text-xs font-bold uppercase tracking-wider px-3 py-1 border border-white/20 text-neutral-300 rounded-full hidden sm:inline-block">High Altitudes & Heritage</span>
+                </div>
+
+                <!-- Vibrant Travel Cards -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                    
+                    <!-- Destination 1: Mustang -->
+                    <div class="group rounded-xl overflow-hidden border border-white/10 bg-[#121520] hover:border-goldAccent transition-all cursor-pointer shadow-lg" onclick="openPhotoModal('Upper Mustang Valley', '3,840m Altitude • Trans-Himalayan Plateau', 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?q=80&w=1200&auto=format&fit=crop')">
+                        <div class="h-48 overflow-hidden relative">
+                            <img src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?q=80&w=800&auto=format&fit=crop" alt="Upper Mustang" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <span class="absolute top-3 left-3 bg-black/70 backdrop-blur-md text-goldAccent text-[10px] font-bold uppercase px-2 py-0.5 rounded">High Desert</span>
+                        </div>
+                        <div class="p-4">
+                            <span class="text-[10px] font-bold uppercase tracking-widest text-neutral-400">Mustang</span>
+                            <h4 class="font-serif text-lg font-bold text-white group-hover:text-goldAccent transition-colors">The Walled Kingdom</h4>
+                            <p class="text-xs text-neutral-300 mt-1 line-clamp-2">Ancient cliffside monasteries and wind-sculpted stone canyons.</p>
+                        </div>
+                    </div>
+
+                    <!-- Destination 2: Pokhara -->
+                    <div class="group rounded-xl overflow-hidden border border-white/10 bg-[#121520] hover:border-goldAccent transition-all cursor-pointer shadow-lg" onclick="openPhotoModal('Pokhara Valley', 'Phewa Lakeside • Annapurna Sanctuary', 'https://images.unsplash.com/photo-1605640840605-14ac1855827b?q=80&w=1200&auto=format&fit=crop')">
+                        <div class="h-48 overflow-hidden relative">
+                            <img src="https://images.unsplash.com/photo-1605640840605-14ac1855827b?q=80&w=800&auto=format&fit=crop" alt="Pokhara" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <span class="absolute top-3 left-3 bg-black/70 backdrop-blur-md text-emeraldAccent text-[10px] font-bold uppercase px-2 py-0.5 rounded">Lakeside</span>
+                        </div>
+                        <div class="p-4">
+                            <span class="text-[10px] font-bold uppercase tracking-widest text-neutral-400">Pokhara</span>
+                            <h4 class="font-serif text-lg font-bold text-white group-hover:text-goldAccent transition-colors">Phewa Reflections</h4>
+                            <p class="text-xs text-neutral-300 mt-1 line-clamp-2">Morning waters reflecting the Machapuchare ridge in clear skies.</p>
+                        </div>
+                    </div>
+
+                    <!-- Destination 3: Patan Durbar -->
+                    <div class="group rounded-xl overflow-hidden border border-white/10 bg-[#121520] hover:border-goldAccent transition-all cursor-pointer shadow-lg" onclick="openPhotoModal('Patan Durbar Square', 'Lalitpur • Newar UNESCO Heritage', 'https://images.unsplash.com/photo-1544717305-2782549b5136?q=80&w=1200&auto=format&fit=crop')">
+                        <div class="h-48 overflow-hidden relative">
+                            <img src="https://images.unsplash.com/photo-1544717305-2782549b5136?q=80&w=800&auto=format&fit=crop" alt="Patan Durbar" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <span class="absolute top-3 left-3 bg-black/70 backdrop-blur-md text-amber-300 text-[10px] font-bold uppercase px-2 py-0.5 rounded">Heritage</span>
+                        </div>
+                        <div class="p-4">
+                            <span class="text-[10px] font-bold uppercase tracking-widest text-neutral-400">Lalitpur</span>
+                            <h4 class="font-serif text-lg font-bold text-white group-hover:text-goldAccent transition-colors">Courtyard Architecture</h4>
+                            <p class="text-xs text-neutral-300 mt-1 line-clamp-2">Centuries of Newar stone craftsmanship, palace squares, and brass art.</p>
+                        </div>
+                    </div>
+
+                    <!-- Destination 4: Annapurna -->
+                    <div class="group rounded-xl overflow-hidden border border-white/10 bg-[#121520] hover:border-goldAccent transition-all cursor-pointer shadow-lg" onclick="openPhotoModal('Annapurna Himalayan Range', '4,130m Elevation • High Alpine Trails', 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=1200&auto=format&fit=crop')">
+                        <div class="h-48 overflow-hidden relative">
+                            <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=800&auto=format&fit=crop" alt="Himalayas" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <span class="absolute top-3 left-3 bg-black/70 backdrop-blur-md text-crimsonAccent text-[10px] font-bold uppercase px-2 py-0.5 rounded">Alpine</span>
+                        </div>
+                        <div class="p-4">
+                            <span class="text-[10px] font-bold uppercase tracking-widest text-neutral-400">High Altitude</span>
+                            <h4 class="font-serif text-lg font-bold text-white group-hover:text-goldAccent transition-colors">Himalayan Trails</h4>
+                            <p class="text-xs text-neutral-300 mt-1 line-clamp-2">Finding perspective across high altitude passes away from statutory files.</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <p class="text-center text-xs font-semibold text-neutral-400 mt-6 uppercase tracking-wider">Click any photograph to view high-resolution notes</p>
+            </div>
+        </section>
+
+        <!-- ==================== CUBE FACE 6: DISPATCH & CONTACT ==================== -->
+        <section class="cube-face items-center px-6 sm:px-16 py-20 bg-[#090B10]">
+            <div class="cube-shade"></div>
+            <!-- Background: Lady Justice Silhouette -->
+            <div class="absolute inset-0 bg-cover bg-center opacity-25 filter contrast-125 pointer-events-none" style="background-image: url('https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=2000&auto=format&fit=crop');"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-[#090B10] via-[#090B10]/85 to-transparent"></div>
+
+            <div class="max-w-4xl mx-auto w-full text-center relative z-10">
+                <div class="inline-flex items-center gap-2 px-3 py-1 border border-goldAccent/40 bg-goldAccent/10 text-goldAccent text-xs font-bold uppercase tracking-widest rounded-full mb-4">
+                    Direct Dispatch
+                </div>
+
+                <h2 class="font-serif text-4xl sm:text-6xl text-white font-bold mb-4">
+                    Initiate Legal Counsel
+                </h2>
+
+                <p class="text-neutral-300 text-base sm:text-lg max-w-xl mx-auto mb-10 leading-relaxed font-light">
+                    Retained for corporate governance advisory, board secretarial duties, and legal representation in Nepal.
+                </p>
+
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-lg mx-auto mb-14">
+                    <a href="mailto:sanju.maharjan777@gmail.com" class="w-full sm:w-auto px-6 py-4 bg-gradient-to-r from-goldAccent to-amber-500 text-black font-bold text-xs uppercase tracking-widest rounded-xl flex items-center justify-center gap-3 hover:brightness-110 transition-all shadow-lg shadow-goldAccent/20">
+                        <i data-lucide="mail" class="w-4 h-4"></i>
+                        <span>sanju.maharjan777@gmail.com</span>
+                    </a>
+
+                    <a href="https://www.linkedin.com/in/sanju-maharjan-0253aa244" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto px-6 py-4 bg-[#121520] border border-white/20 text-white font-bold text-xs uppercase tracking-widest rounded-xl flex items-center justify-center gap-3 hover:border-goldAccent hover:text-goldAccent transition-all shadow-lg">
+                        <i data-lucide="linkedin" class="w-4 h-4 text-goldAccent"></i>
+                        <span>LinkedIn Profile</span>
+                    </a>
+                </div>
+
+                <div class="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-xs text-neutral-400 gap-4 font-medium">
+                    <span>Kathmandu, Bāgmatī Province, Nepal</span>
+                    <button onclick="goToSlide(0)" class="text-goldAccent hover:underline font-bold uppercase tracking-wider flex items-center gap-1">
+                        Return to Front Face <i data-lucide="arrow-up" class="w-3.5 h-3.5"></i>
+                    </button>
+                    <span>© <span id="year"></span> Sanju Maharjan</span>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Fullscreen Lightbox Modal for Travels -->
+    <div id="photo-modal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="relative max-w-4xl w-full bg-[#121520] border border-goldAccent/40 rounded-2xl overflow-hidden shadow-2xl">
+            <button onclick="closePhotoModal()" class="absolute top-4 right-4 z-10 p-2 bg-black/60 rounded-full text-white hover:bg-goldAccent hover:text-black transition-colors">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+            <div class="max-h-[70vh] w-full overflow-hidden bg-black flex items-center justify-center">
+                <img id="modal-img" src="" alt="Travel location" class="w-full h-full object-contain">
+            </div>
+            <div class="p-5 bg-[#121520] border-t border-white/10">
+                <span id="modal-coords" class="text-xs font-bold text-goldAccent uppercase tracking-wider block mb-1"></span>
+                <h3 id="modal-title" class="font-serif text-2xl text-white font-bold"></h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT: 100% RELIABLE DUAL-FACE 3D CUBE ENGINE -->
+    <script>
+        lucide.createIcons();
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        const slides = Array.from(document.querySelectorAll('.cube-face'));
+        const dots = document.querySelectorAll('.cube-dot');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        let currentSlide = 0;
+        let isTransitioning = false;
+        const totalSlides = slides.length;
+
+        // Rock-solid 3D Cube Rotation Engine
+        function goToSlide(targetIndex) {
+            if (targetIndex === currentSlide || isTransitioning) return;
+            if (targetIndex < 0 || targetIndex >= totalSlides) return;
+
+            isTransitioning = true;
+            const isMovingDown = targetIndex > currentSlide;
+
+            const outgoingSlide = slides[currentSlide];
+            const incomingSlide = slides[targetIndex];
+
+            const outShade = outgoingSlide.querySelector('.cube-shade');
+            const inShade = incomingSlide.querySelector('.cube-shade');
+
+            // Setup incoming slide position in 3D space
+            incomingSlide.classList.add('is-animating');
+            incomingSlide.style.transition = 'none';
+            incomingSlide.style.transform = isMovingDown ? 'rotateX(-90deg)' : 'rotateX(90deg)';
+            if (inShade) inShade.style.opacity = '0.6';
+
+            // Setup outgoing slide
+            outgoingSlide.classList.add('is-animating');
+            outgoingSlide.style.transition = 'none';
+            outgoingSlide.style.transform = 'rotateX(0deg)';
+            if (outShade) outShade.style.opacity = '0';
+
+            // Force reflow so the starting positions take effect before animation
+            void incomingSlide.offsetHeight;
+
+            // Animate both faces together like a solid 90-degree corner
+            const duration = '850ms';
+            const timing = 'cubic-bezier(0.7, 0, 0.25, 1)';
+            
+            incomingSlide.style.transition = `transform ${duration} ${timing}`;
+            outgoingSlide.style.transition = `transform ${duration} ${timing}`;
+
+            incomingSlide.style.transform = 'rotateX(0deg)';
+            outgoingSlide.style.transform = isMovingDown ? 'rotateX(90deg)' : 'rotateX(-90deg)';
+
+            if (inShade) {
+                inShade.style.transition = `opacity ${duration} ${timing}`;
+                inShade.style.opacity = '0';
+            }
+            if (outShade) {
+                outShade.style.transition = `opacity ${duration} ${timing}`;
+                outShade.style.opacity = '0.7';
+            }
+
+            currentSlide = targetIndex;
+            updateUIState();
+
+            // When animation completes, finalize states
+            setTimeout(() => {
+                outgoingSlide.classList.remove('is-current', 'is-animating');
+                outgoingSlide.style.transition = '';
+                outgoingSlide.style.transform = '';
+
+                incomingSlide.classList.remove('is-animating');
+                incomingSlide.classList.add('is-current');
+                incomingSlide.style.transition = '';
+                incomingSlide.style.transform = '';
+
+                if (outShade) {
+                    outShade.style.transition = '';
+                    outShade.style.opacity = '0';
+                }
+                if (inShade) {
+                    inShade.style.transition = '';
+                    inShade.style.opacity = '0';
+                }
+
+                isTransitioning = false;
+            }, 880);
+        }
+
+        function navigateCube(direction) {
+            goToSlide(currentSlide + direction);
+        }
+
+        function updateUIState() {
+            // Update dots
+            dots.forEach((dot, idx) => {
+                if (idx === currentSlide) {
+                    dot.classList.remove('bg-white/20');
+                    dot.classList.add('bg-goldAccent', 'scale-125', 'shadow-lg', 'shadow-goldAccent/50');
+                } else {
+                    dot.classList.add('bg-white/20');
+                    dot.classList.remove('bg-goldAccent', 'scale-125', 'shadow-lg', 'shadow-goldAccent/50');
+                }
+            });
+
+            // Update top nav
+            navLinks.forEach((link, idx) => {
+                if (idx === currentSlide) {
+                    link.classList.add('text-goldAccent', 'border-b-2', 'border-goldAccent');
+                } else {
+                    link.classList.remove('text-goldAccent', 'border-b-2', 'border-goldAccent');
+                }
+            });
+        }
+
+        // Mouse Wheel (Rotate Cube)
+        let wheelDebounce = false;
+        window.addEventListener('wheel', (e) => {
+            if (wheelDebounce || isTransitioning) return;
+
+            if (Math.abs(e.deltaY) > 20) {
+                wheelDebounce = true;
+                if (e.deltaY > 0) {
+                    navigateCube(1);
+                } else {
+                    navigateCube(-1);
+                }
+                setTimeout(() => { wheelDebounce = false; }, 900);
+            }
+        }, { passive: true });
+
+        // Touch Swipe Navigation (Mobile 3D Cube)
+        let touchStartY = 0;
+        window.addEventListener('touchstart', (e) => {
+            touchStartY = e.changedTouches[0].screenY;
+        }, { passive: true });
+
+        window.addEventListener('touchend', (e) => {
+            if (isTransitioning) return;
+            const touchEndY = e.changedTouches[0].screenY;
+            const deltaY = touchStartY - touchEndY;
+
+            if (Math.abs(deltaY) > 40) {
+                if (deltaY > 0) {
+                    navigateCube(1); // Swiped up -> next slide
+                } else {
+                    navigateCube(-1); // Swiped down -> prev slide
+                }
+            }
+        }, { passive: true });
+
+        // Keyboard Up / Down arrows
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
+                e.preventDefault();
+                navigateCube(1);
+            } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+                e.preventDefault();
+                navigateCube(-1);
+            }
+        });
+
+        // Lightbox Functions
+        const photoModal = document.getElementById('photo-modal');
+        const modalImg = document.getElementById('modal-img');
+        const modalTitle = document.getElementById('modal-title');
+        const modalCoords = document.getElementById('modal-coords');
+
+        function openPhotoModal(title, coords, imgSrc) {
+            modalTitle.textContent = title;
+            modalCoords.textContent = coords;
+            modalImg.src = imgSrc;
+            photoModal.classList.remove('hidden');
+        }
+
+        function closePhotoModal() {
+            photoModal.classList.add('hidden');
+        }
+
+        photoModal.addEventListener('click', (e) => {
+            if (e.target === photoModal) closePhotoModal();
+        });
+
+        // Initialize state
+        updateUIState();
+    </script>
+</body>
+</html>
