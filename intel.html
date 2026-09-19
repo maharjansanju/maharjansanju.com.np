@@ -43,6 +43,7 @@
             position: relative;
             width: 100vw;
             height: 100vh;
+            height: 100dvh;
             overflow: hidden;
             perspective: 1400px;
             background: #07080A;
@@ -119,7 +120,7 @@
             <button onclick="goToSlide(2)" class="nav-link hover:text-goldAccent transition-colors">Practice</button>
             <button onclick="goToSlide(3)" class="nav-link hover:text-goldAccent transition-colors">Credentials</button>
             <button onclick="goToSlide(4)" class="nav-link hover:text-goldAccent transition-colors">Travels</button>
-            <button onclick="goToSlide(5)" class="px-4 py-2 bg-gradient-to-r from-goldAccent to-amber-500 text-black font-semibold rounded-lg hover:brightness-110 shadow-lg shadow-goldAccent/20 transition-all">Dispatch</button>
+            <button onclick="goToSlide(5)" class="nav-link px-4 py-2 bg-gradient-to-r from-goldAccent to-amber-500 text-black font-semibold rounded-lg hover:brightness-110 shadow-lg shadow-goldAccent/20 transition-all">Dispatch</button>
         </nav>
 
         <!-- Up / Down Cube Controllers -->
@@ -306,7 +307,7 @@
                             <span class="text-xs font-bold uppercase tracking-wider px-3 py-1 bg-goldAccent/10 text-goldAccent border border-goldAccent/30 rounded-full hidden sm:inline-block">Active Docket</span>
                         </div>
 
-                        <!-- Experience Ledger: Flows naturally without inner clipping -->
+                        <!-- Experience Ledger -->
                         <div class="space-y-4">
                             
                             <div class="p-6 bg-[#121520] border border-goldAccent/40 rounded-xl shadow-lg hover:border-goldAccent transition-all">
@@ -459,7 +460,7 @@
                             <!-- Destination 1: Gosaikunda -->
                             <div class="group rounded-xl overflow-hidden border border-white/10 bg-[#121520] hover:border-goldAccent transition-all cursor-pointer shadow-lg" onclick="openPhotoModal('Gosaikunda', '4,380m Altitude • Langtang National Park', 'https://i.postimg.cc/xd857mwL/Gosaikunda.jpg')">
                                 <div class="h-56 overflow-hidden relative">
-                                    <img src="https://i.postimg.cc/xd857mwL/Gosaikunda.jpg" alt="Gosaikunda" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                    <img src="https://i.postimg.cc/xd857mwL/Gosaikunda.jpg" alt="Gosaikunda" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://images.unsplash.com/photo-1544735716-392fe2489ffa?q=80&w=800&auto=format&fit=crop'">
                                     <span class="absolute top-3 left-3 bg-black/70 backdrop-blur-md text-goldAccent text-[10px] font-bold uppercase px-2 py-0.5 rounded">Religious Destination</span>
                                 </div>
                                 <div class="p-4">
@@ -472,7 +473,7 @@
                             <!-- Destination 2: Pokhara -->
                             <div class="group rounded-xl overflow-hidden border border-white/10 bg-[#121520] hover:border-goldAccent transition-all cursor-pointer shadow-lg" onclick="openPhotoModal('Pokhara Valley', 'Phewa Lakeside • Annapurna Sanctuary', 'https://i.postimg.cc/MZnFrC7Z/Pokhara.jpg')">
                                 <div class="h-56 overflow-hidden relative">
-                                    <img src="https://i.postimg.cc/MZnFrC7Z/Pokhara.jpg" alt="Pokhara" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                    <img src="https://i.postimg.cc/MZnFrC7Z/Pokhara.jpg" alt="Pokhara" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://images.unsplash.com/photo-1605640840605-14ac1855827b?q=80&w=800&auto=format&fit=crop'">
                                     <span class="absolute top-3 left-3 bg-black/70 backdrop-blur-md text-emeraldAccent text-[10px] font-bold uppercase px-2 py-0.5 rounded">Lakeside</span>
                                 </div>
                                 <div class="p-4">
@@ -485,7 +486,7 @@
                             <!-- Destination 3: Patan Durbar -->
                             <div class="group rounded-xl overflow-hidden border border-white/10 bg-[#121520] hover:border-goldAccent transition-all cursor-pointer shadow-lg" onclick="openPhotoModal('Patan Durbar Square', 'Lalitpur • Newar UNESCO Heritage', 'https://i.postimg.cc/vmSvrmSJ/Patan.jpg')">
                                 <div class="h-56 overflow-hidden relative">
-                                    <img src="https://i.postimg.cc/vmSvrmSJ/Patan.jpg" alt="Patan Durbar" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                    <img src="https://i.postimg.cc/vmSvrmSJ/Patan.jpg" alt="Patan Durbar" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://images.unsplash.com/photo-1544717305-2782549b5136?q=80&w=800&auto=format&fit=crop'">
                                     <span class="absolute top-3 left-3 bg-black/70 backdrop-blur-md text-amber-300 text-[10px] font-bold uppercase px-2 py-0.5 rounded">Heritage</span>
                                 </div>
                                 <div class="p-4">
@@ -498,7 +499,7 @@
                             <!-- Destination 4: Dudhkunda -->
                             <div class="group rounded-xl overflow-hidden border border-white/10 bg-[#121520] hover:border-goldAccent transition-all cursor-pointer shadow-lg" onclick="openPhotoModal('Numbur Himalayan Range', '4,560m Elevation • High Alpine Trails', 'https://i.postimg.cc/856LLmvg/Dudhkunda.jpg')">
                                 <div class="h-56 overflow-hidden relative">
-                                    <img src="https://i.postimg.cc/856LLmvg/Dudhkunda.jpg" alt="Himalayas" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                    <img src="https://i.postimg.cc/856LLmvg/Dudhkunda.jpg" alt="Himalayas" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=800&auto=format&fit=crop'">
                                     <span class="absolute top-3 left-3 bg-black/70 backdrop-blur-md text-crimsonAccent text-[10px] font-bold uppercase px-2 py-0.5 rounded">Alpine</span>
                                 </div>
                                 <div class="p-4">
@@ -615,7 +616,6 @@
 
             const incomingScroller = incomingSlide.querySelector('.slide-scroller');
             if (incomingScroller) {
-                // When moving down, start from top of new slide. When moving up, start from bottom.
                 incomingScroller.scrollTop = isMovingDown ? 0 : (incomingScroller.scrollHeight - incomingScroller.clientHeight);
             }
 
@@ -727,12 +727,10 @@
             const atTop = scroller.scrollTop <= 6;
 
             if (isScrollingDown) {
-                // If there's still content below, let browser scroll naturally to read
                 if (!atBottom) {
                     boundaryDelta = 0;
                     return;
                 }
-                // Page is read to the end! Accumulate deliberate wheel intent to turn
                 boundaryDelta += e.deltaY;
                 clearTimeout(boundaryTimer);
                 boundaryTimer = setTimeout(() => { boundaryDelta = 0; }, 350);
@@ -742,12 +740,10 @@
                     navigateCube(1);
                 }
             } else if (isScrollingUp) {
-                // If not at the very top, let user scroll up through the content
                 if (!atTop) {
                     boundaryDelta = 0;
                     return;
                 }
-                // At top of page, accumulate wheel intent to go back to previous cube face
                 boundaryDelta += e.deltaY;
                 clearTimeout(boundaryTimer);
                 boundaryTimer = setTimeout(() => { boundaryDelta = 0; }, 350);
@@ -780,16 +776,14 @@
             if (!scroller) return;
 
             const touchEndY = e.changedTouches[0].screenY;
-            const deltaY = touchStartY - touchEndY; // > 0 means swiped up (moving down)
+            const deltaY = touchStartY - touchEndY;
 
             const atBottom = scroller.scrollTop + scroller.clientHeight >= scroller.scrollHeight - 8;
             const atTop = scroller.scrollTop <= 8;
 
             if (deltaY > 60 && atBottom && touchStartScrollTop + scroller.clientHeight >= scroller.scrollHeight - 8) {
-                // Was already at the bottom and swiped up again -> rotate to next slide
                 navigateCube(1);
             } else if (deltaY < -60 && atTop && touchStartScrollTop <= 8) {
-                // Was already at top and swiped down again -> rotate to previous slide
                 navigateCube(-1);
             }
         }, { passive: true });
@@ -808,11 +802,9 @@
 
             if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === ' ') {
                 if (!atBottom) {
-                    // Smoothly scroll content to read
                     scroller.scrollBy({ top: 180, behavior: 'smooth' });
                     e.preventDefault();
                 } else {
-                    // Reached the bottom, turn the cube
                     e.preventDefault();
                     navigateCube(1);
                 }
