@@ -512,7 +512,8 @@
                         </div>
                     </div>
 
-                    <div id="summaryBody" class="text-sm text-neutral-200 leading-relaxed font-light whitespace-pre-line space-y-4 font-sans">
+                    <!-- Clean Formatted Summary Body -->
+                    <div id="summaryBody" class="text-sm text-neutral-200 leading-relaxed font-light space-y-3 font-sans">
                     </div>
 
                     <div class="pt-3 border-t border-white/5 text-[10px] font-mono text-neutral-500 flex items-center justify-between">
@@ -765,10 +766,31 @@
             }
         }
 
+        // 6. Clean Formatter: Strips ###, **, and converts them into styled elements
+        function formatLegalSummary(rawText) {
+            if (!rawText) return '';
+
+            return rawText
+                // Turn ### **Heading** into clean gold legal section headers
+                .replace(/^###\s*\**([^\*\n\r]+)\**$/gm, '<h4 class="text-lg font-serif font-bold text-gold border-b border-white/10 pb-2 mt-7 mb-3">$1</h4>')
+                .replace(/^##\s*\**([^\*\n\r]+)\**$/gm, '<h3 class="text-xl font-serif font-bold text-gold border-b border-white/10 pb-2 mt-8 mb-4">$1</h3>')
+                // Turn --- into subtle hairline dividers
+                .replace(/^---+$/gm, '<hr class="border-white/10 my-5">')
+                // Turn **word** into clean bold text (without asterisks)
+                .replace(/\*\*([^*]+)\*\*/g, '<strong class="font-semibold text-white">$1</strong>')
+                // Turn * into clean gold bullet points
+                .replace(/^\*\s+(.+)$/gm, '<div class="flex items-start gap-2.5 my-1.5"><span class="text-gold mt-0.5 text-xs select-none">•</span><div class="text-neutral-300 leading-relaxed font-light">$1</div></div>')
+                // Strip any remaining stray symbols
+                .replace(/###/g, '')
+                .replace(/\*\*/g, '');
+        }
+
         function renderSummary(text) {
             const resultCard = document.getElementById('resultCard');
             const summaryBody = document.getElementById('summaryBody');
-            summaryBody.innerText = text;
+
+            // Render clean, formatted HTML without raw markdown symbols
+            summaryBody.innerHTML = formatLegalSummary(text);
             resultCard.classList.remove('hidden');
             resultCard.scrollIntoView({ behavior: 'smooth' });
         }
