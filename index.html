@@ -96,7 +96,6 @@
                 <a href="#contact" class="hidden sm:inline-block px-4 py-2 bg-gradient-to-r from-gold to-amber-500 text-black font-semibold text-xs uppercase tracking-wider rounded-xl hover:brightness-110 shadow-lg shadow-gold/20 transition-all">
                     Contact
                 </a>
-                <!-- Mobile Menu Button -->
                 <button id="mobileMenuBtn" class="lg:hidden p-2 text-neutral-400 hover:text-white">
                     <i data-lucide="menu" class="w-5 h-5"></i>
                 </button>
@@ -138,7 +137,6 @@
                         Licensed Nepali lawyer with hands-on practice as Company Secretary for public and private corporations. Experienced in corporate governance, intellectual property, labor, immigration, and local government judicial mediation.
                     </p>
 
-                    <!-- Affiliation Badges -->
                     <div class="flex flex-wrap items-center gap-3.5 mb-10">
                         <a href="https://bigagrogroup.com/" target="_blank" rel="noopener noreferrer" class="px-4 py-2.5 border border-white/10 bg-white/5 rounded-xl hover:border-gold hover:bg-gold/10 transition-all text-xs font-medium inline-flex items-center gap-2 group">
                             <span class="text-gold font-semibold">Current:</span> Corporate Secretary at Big Agro Group Limited
@@ -420,7 +418,7 @@
             </div>
         </section>
 
-        <!-- ==================== 6. EMBEDDED AI CASE SUMMARIZER ==================== -->
+        <!-- ==================== 6. EMBEDDED AI CASE SUMMARIZER (KEYLESS) ==================== -->
         <section id="ai-summarizer" class="space-y-8">
             <div class="flex flex-col sm:flex-row sm:items-end justify-between border-b border-white/10 pb-4 gap-3">
                 <div>
@@ -436,25 +434,16 @@
                 </a>
             </div>
 
-            <!-- AI Engine Interface Box -->
+            <!-- Keyless AI Interface Box -->
             <div class="bg-cardSurface border border-gold/30 rounded-3xl p-6 sm:p-10 shadow-2xl space-y-6 relative overflow-hidden">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pb-4 border-b border-white/5">
-                    <div class="md:col-span-2">
-                        <label class="block text-xs font-mono uppercase text-gold mb-1.5 flex items-center justify-between">
-                            <span>Google Gemini API Key (Free)</span>
-                            <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-[10px] text-neutral-400 hover:underline">Get Free Key ↗</a>
-                        </label>
-                        <div class="relative">
-                            <input type="password" id="geminiApiKey" placeholder="AIzaSy..." class="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-gold font-mono">
-                            <button onclick="toggleKeyVisibility()" type="button" class="absolute right-3 top-2.5 text-neutral-400 hover:text-white">
-                                <i data-lucide="eye" id="eyeIcon" class="w-4 h-4"></i>
-                            </button>
-                        </div>
-                        <span class="text-[10px] text-neutral-500 mt-1 block">Key is saved securely in your browser's localStorage only.</span>
-                    </div>
-
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-white/5 gap-4">
                     <div>
-                        <label class="block text-xs font-mono uppercase text-gold mb-1.5">Output Language</label>
+                        <span class="text-xs font-mono text-emeraldAccent font-semibold flex items-center gap-1.5">
+                            <span class="w-2 h-2 rounded-full bg-emeraldAccent animate-pulse"></span> Keyless Access Enabled
+                        </span>
+                        <p class="text-[11px] text-neutral-400 font-light mt-0.5">Free for all visitors • Powered by Google Gemini AI</p>
+                    </div>
+                    <div class="w-full sm:w-60">
                         <select id="summaryLang" class="w-full bg-black/50 border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-gold font-sans">
                             <option value="Nepali">नेपाली (मानक कानूनी ढाँचा)</option>
                             <option value="English">English (Executive Legal Brief)</option>
@@ -686,29 +675,7 @@
             if (e.target === photoModal) closePhotoModal();
         });
 
-        // 2. AI Summarizer Local Storage & Visibility
-        const apiKeyInput = document.getElementById('geminiApiKey');
-        const savedKey = localStorage.getItem('nkp_gemini_api_key');
-        if (savedKey) apiKeyInput.value = savedKey;
-
-        apiKeyInput.addEventListener('change', () => {
-            localStorage.setItem('nkp_gemini_api_key', apiKeyInput.value.trim());
-        });
-
-        function toggleKeyVisibility() {
-            const input = document.getElementById('geminiApiKey');
-            const icon = document.getElementById('eyeIcon');
-            if (input.type === 'password') {
-                input.type = 'text';
-                icon.setAttribute('data-lucide', 'eye-off');
-            } else {
-                input.type = 'password';
-                icon.setAttribute('data-lucide', 'eye');
-            }
-            lucide.createIcons();
-        }
-
-        // 3. Switch Mode (URL vs Direct Text)
+        // 2. Switch Mode (URL vs Direct Text)
         function switchMode(mode) {
             const urlContainer = document.getElementById('urlInputContainer');
             const textContainer = document.getElementById('textInputContainer');
@@ -728,15 +695,10 @@
             }
         }
 
-        // 4. Fetch Case from NKP URL
+        // 3. Fetch Case from NKP URL
         async function fetchAndSummarize() {
             const url = document.getElementById('nkpUrlInput').value.trim();
-            const apiKey = apiKeyInput.value.trim();
 
-            if (!apiKey) {
-                alert('कृपया पहिले Google Gemini API Key राख्नुहोस् (aistudio.google.com बाट निःशुल्क पाइन्छ)।');
-                return;
-            }
             if (!url || !url.includes('nkp.gov.np')) {
                 alert('कृपया मान्य NKP लिङ्क राख्नुहोस् (उदा: https://nkp.gov.np/full_detail/10561)');
                 return;
@@ -778,7 +740,7 @@
                 }
 
                 setLoading(true, 'AI द्वारा फैसलाको ५-बुँदे कानूनी विश्लेषण तयार गरिँदैछ...');
-                await callGeminiApi(bodyText, apiKey);
+                await callBackendApi(bodyText);
 
             } catch (err) {
                 alert(err.message);
@@ -786,82 +748,38 @@
             }
         }
 
-        // 5. Summarize Pasted Text
+        // 4. Summarize Pasted Text
         async function summarizeRawText() {
             const rawText = document.getElementById('rawCaseText').value.trim();
-            const apiKey = apiKeyInput.value.trim();
 
-            if (!apiKey) {
-                alert('कृपया पहिले Google Gemini API Key राख्नुहोस्।');
-                return;
-            }
             if (!rawText || rawText.length < 100) {
                 alert('कृपया फैसलाको केही अनुच्छेद वा पाठ पेस्ट गर्नुहोस्।');
                 return;
             }
 
             setLoading(true, 'AI द्वारा फैसलाको ५-बुँदे कानूनी विश्लेषण तयार गरिँदैछ...');
-            await callGeminiApi(rawText, apiKey);
+            await callBackendApi(rawText);
         }
 
-        // 6. Gemini API Call
-        async function callGeminiApi(caseText, apiKey) {
+        // 5. Call Keyless Cloudflare Worker Backend
+        async function callBackendApi(caseText) {
             const lang = document.getElementById('summaryLang').value;
             const resultCard = document.getElementById('resultCard');
             const summaryBody = document.getElementById('summaryBody');
 
-            const sanitizedText = caseText.slice(0, 50000);
-
-            const prompt = `You are a senior Advocate of the Supreme Court of Nepal.
-Analyze the following court judgment from the Nepal Kanoon Patrika (NKP).
-Produce an authoritative, highly structured legal case brief in ${lang}.
-
-Maintain this STRICT 5-Pillar Case Brief format with clear bold headings:
-
-१. पक्षहरू, मुद्दाको विषय र पृष्ठभूमि (Parties, Case Subject & Procedural History)
-- निर्णय नं. / फैसला मिति / इजलास (यदि उल्लेख भए)
-- वादी र प्रतिवादीको परिचय तथा विवादको संक्षिप्त पृष्ठभूमि
-
-२. विवादित मुख्य कानूनी प्रश्नहरू (Key Issues / Questions of Law)
-- अदालतले निरुपण गर्नुपर्ने मुख्य कानूनी र प्रमाणसम्बन्धी प्रश्नहरू (बुँदागत रूपमा)
-
-३. पक्षहरूको मुख्य दाबी र जिकिर (Arguments of the Parties)
-- पुनरावेदक/वादीको दाबी
-- विपक्षी/प्रतिवादीको जिकिर
-
-४. अदालतको ठहर र फैसलाको आधार (Court's Reasoning & Final Decision)
-- कुन प्रमाण, कानून र नजीरका आधारमा अदालतले निर्णय गर्‍यो
-- सुरु अदालतको फैसला उल्टी, सदर वा के भयो
-
-५. प्रतिपादित कानूनी सिद्धान्त (Ratio Decidendi / Legal Precedent)
-- यस फैसलाले प्रतिपादन गरेको दीर्घकालीन कानूनी सिद्धान्त (नजिर)
-
-६. कानूनी र व्यावहारिक प्रभाव (Practical Takeaways & Legal Impact)
-- कानून व्यवसायी, नागरिक वा व्यावसायिक संस्थाहरूका लागि यसको व्यावहारिक महत्व
-
-Judgment Text:
-${sanitizedText}`;
-
-            try {
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: prompt }] }]
-                    })
-                });
+            // https://dash.cloudflare.com/fb6ce6b3899e550d8580b0f187ba7fcf/workers-and-pages#:~:text=case%2Dlaw%2Dsummarization.sanju%2Dmaharjan777.workers.dev
 
                 const data = await response.json();
 
-                if (data.candidates && data.candidates[0].content.parts[0].text) {
-                    summaryBody.innerText = data.candidates[0].content.parts[0].text;
+                if (data.summary) {
+                    summaryBody.innerText = data.summary;
                     resultCard.classList.remove('hidden');
                     resultCard.scrollIntoView({ behavior: 'smooth' });
                 } else {
-                    throw new Error(data.error?.message || 'सारांश तयार गर्न सकिएन।');
+                    throw new Error(data.error || 'सारांश तयार गर्न सकिएन।');
                 }
             } catch (error) {
-                alert('त्रुटि: ' + error.message);
+                alert('त्रुटि: ' + error.message + '\n\nयदि तपाईंले अझै Cloudflare Worker राख्नुभएको छैन भने कृपया माथिको Cloudflare Worker सेटअप पूरा गर्नुहोस्।');
             } finally {
                 setLoading(false);
             }
