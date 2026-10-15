@@ -767,7 +767,40 @@
             const resultCard = document.getElementById('resultCard');
             const summaryBody = document.getElementById('summaryBody');
 
-            // https://dash.cloudflare.com/fb6ce6b3899e550d8580b0f187ba7fcf/workers-and-pages#:~:text=case%2Dlaw%2Dsummarization.sanju%2Dmaharjan777.workers.dev
+            // // 5. Call Keyless Cloudflare Worker Backend
+        async function callBackendApi(caseText) {
+            const lang = document.getElementById('summaryLang').value;
+            const resultCard = document.getElementById('resultCard');
+            const summaryBody = document.getElementById('summaryBody');
+
+            // Your actual Cloudflare Worker URL
+            const WORKER_URL = "https://case-law-summarization.sanju-maharjan777.workers.dev/";
+
+            try {
+                const response = await fetch(WORKER_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        text: caseText,
+                        lang: lang
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.summary) {
+                    summaryBody.innerText = data.summary;
+                    resultCard.classList.remove('hidden');
+                    resultCard.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    throw new Error(data.error || 'Failed to generate summary.');
+                }
+            } catch (error) {
+                alert('Error: ' + error.message);
+            } finally {
+                setLoading(false);
+            }
+        }
 
                 const data = await response.json();
 
