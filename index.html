@@ -137,6 +137,7 @@
                         Licensed Nepali lawyer with hands-on practice as Company Secretary for public and private corporations. Experienced in corporate governance, intellectual property, labor, immigration, and local government judicial mediation.
                     </p>
 
+                    <!-- Affiliation Badges -->
                     <div class="flex flex-wrap items-center gap-3.5 mb-10">
                         <a href="https://bigagrogroup.com/" target="_blank" rel="noopener noreferrer" class="px-4 py-2.5 border border-white/10 bg-white/5 rounded-xl hover:border-gold hover:bg-gold/10 transition-all text-xs font-medium inline-flex items-center gap-2 group">
                             <span class="text-gold font-semibold">Current:</span> Corporate Secretary at Big Agro Group Limited
@@ -418,7 +419,7 @@
             </div>
         </section>
 
-        <!-- ==================== 6. EMBEDDED AI CASE SUMMARIZER (KEYLESS) ==================== -->
+        <!-- ==================== 6. EMBEDDED AI CASE SUMMARIZER ==================== -->
         <section id="ai-summarizer" class="space-y-8">
             <div class="flex flex-col sm:flex-row sm:items-end justify-between border-b border-white/10 pb-4 gap-3">
                 <div>
@@ -695,127 +696,81 @@
             }
         }
 
-        // 3. Fetch Case from NKP URL
+        // 3. Cloudflare Worker URL
+        const WORKER_URL = "https://case-law-summarization.sanju-maharjan777.workers.dev/";
+
+        // 4. Fetch Case from NKP URL
         async function fetchAndSummarize() {
             const url = document.getElementById('nkpUrlInput').value.trim();
+            const lang = document.getElementById('summaryLang').value;
 
             if (!url || !url.includes('nkp.gov.np')) {
                 alert('कृपया मान्य NKP लिङ्क राख्नुहोस् (उदा: https://nkp.gov.np/full_detail/10561)');
                 return;
             }
 
-            setLoading(true, 'NKP सर्भरबाट फैसला डाउनलोड गरिँदैछ...');
-
-            try {
-                let htmlContent = '';
-                const proxyUrls = [
-                    `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
-                    `https://corsproxy.io/?${encodeURIComponent(url)}`
-                ];
-
-                for (let proxy of proxyUrls) {
-                    try {
-                        const res = await fetch(proxy);
-                        if (res.ok) {
-                            htmlContent = await res.text();
-                            if (htmlContent && htmlContent.length > 500) break;
-                        }
-                    } catch (e) {
-                        console.warn('Proxy retry...');
-                    }
-                }
-
-                if (!htmlContent) {
-                    throw new Error('NKP सर्भरबाट फैसला तान्न सकिएन। कृपया Option B मा फैसलाको पाठ सिधै पेस्ट गर्नुहोस्।');
-                }
-
-                const doc = new DOMParser().parseFromString(htmlContent, 'text/html');
-                const toRemove = doc.querySelectorAll('script, style, nav, header, footer, .navbar');
-                toRemove.forEach(el => el.remove());
-
-                const bodyText = (doc.body.innerText || doc.body.textContent).replace(/\s+/g, ' ').trim();
-
-                if (bodyText.length < 200) {
-                    throw new Error('फैसलाको पाठ यकिन गर्न सकिएन। कृपया फैसलाको पाठ कपी गरी Option B मा पेस्ट गर्नुहोस्।');
-                }
-
-                setLoading(true, 'AI द्वारा फैसलाको ५-बुँदे कानूनी विश्लेषण तयार गरिँदैछ...');
-                await callBackendApi(bodyText);
-
-            } catch (err) {
-                alert(err.message);
-                setLoading(false);
-            }
-        }
-
-        // 4. Summarize Pasted Text
-        async function summarizeRawText() {
-            const rawText = document.getElementById('rawCaseText').value.trim();
-
-            if (!rawText || rawText.length < 100) {
-                alert('कृपया फैसलाको केही अनुच्छेद वा पाठ पेस्ट गर्नुहोस्।');
-                return;
-            }
-
-            setLoading(true, 'AI द्वारा फैसलाको ५-बुँदे कानूनी विश्लेषण तयार गरिँदैछ...');
-            await callBackendApi(rawText);
-        }
-
-        // 5. Call Keyless Cloudflare Worker Backend
-        async function callBackendApi(caseText) {
-            const lang = document.getElementById('summaryLang').value;
-            const resultCard = document.getElementById('resultCard');
-            const summaryBody = document.getElementById('summaryBody');
-
-            // // 5. Call Keyless Cloudflare Worker Backend
-        async function callBackendApi(caseText) {
-            const lang = document.getElementById('summaryLang').value;
-            const resultCard = document.getElementById('resultCard');
-            const summaryBody = document.getElementById('summaryBody');
-
-            // Your actual Cloudflare Worker URL
-            const WORKER_URL = "https://case-law-summarization.sanju-maharjan777.workers.dev/";
+            setLoading(true, 'NKP सर्भरबाट फैसला प्राप्त गरी AI द्वारा कानूनी विश्लेषण तयार गरिँदैछ...');
 
             try {
                 const response = await fetch(WORKER_URL, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        text: caseText,
-                        lang: lang
-                    })
+                    body: JSON.stringify({ url: url, lang: lang })
                 });
 
                 const data = await response.json();
 
                 if (data.summary) {
-                    summaryBody.innerText = data.summary;
-                    resultCard.classList.remove('hidden');
-                    resultCard.scrollIntoView({ behavior: 'smooth' });
+                    renderSummary(data.summary);
                 } else {
-                    throw new Error(data.error || 'Failed to generate summary.');
+                    throw new Error(data.error || 'फैसलाको विश्लेषण तयार गर्न सकिएन।');
                 }
-            } catch (error) {
-                alert('Error: ' + error.message);
+            } catch (err) {
+                alert('त्रुटि: ' + err.message + '\n\nयदि लिङ्कबाट तान्न सकिएन भने Option B मा फैसलाको पाठ सिधै पेस्ट गर्नुहोस्।');
             } finally {
                 setLoading(false);
             }
         }
 
+        // 5. Summarize Pasted Text
+        async function summarizeRawText() {
+            const rawText = document.getElementById('rawCaseText').value.trim();
+            const lang = document.getElementById('summaryLang').value;
+
+            if (!rawText || rawText.length < 50) {
+                alert('कृपया फैसलाको केही अनुच्छेद वा पाठ पेस्ट गर्नुहोस्।');
+                return;
+            }
+
+            setLoading(true, 'AI द्वारा फैसलाको ५-बुँदे कानूनी विश्लेषण तयार गरिँदैछ...');
+
+            try {
+                const response = await fetch(WORKER_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ text: rawText, lang: lang })
+                });
+
                 const data = await response.json();
 
                 if (data.summary) {
-                    summaryBody.innerText = data.summary;
-                    resultCard.classList.remove('hidden');
-                    resultCard.scrollIntoView({ behavior: 'smooth' });
+                    renderSummary(data.summary);
                 } else {
-                    throw new Error(data.error || 'सारांश तयार गर्न सकिएन।');
+                    throw new Error(data.error || 'फैसलाको विश्लेषण तयार गर्न सकिएन।');
                 }
-            } catch (error) {
-                alert('त्रुटि: ' + error.message + '\n\nयदि तपाईंले अझै Cloudflare Worker राख्नुभएको छैन भने कृपया माथिको Cloudflare Worker सेटअप पूरा गर्नुहोस्।');
+            } catch (err) {
+                alert('त्रुटि: ' + err.message);
             } finally {
                 setLoading(false);
             }
+        }
+
+        function renderSummary(text) {
+            const resultCard = document.getElementById('resultCard');
+            const summaryBody = document.getElementById('summaryBody');
+            summaryBody.innerText = text;
+            resultCard.classList.remove('hidden');
+            resultCard.scrollIntoView({ behavior: 'smooth' });
         }
 
         function setLoading(isLoading, text = '') {
